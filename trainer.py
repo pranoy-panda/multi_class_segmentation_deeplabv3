@@ -46,7 +46,7 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath, num_ep
                 # current mask has dim: (batch_size,1,W,H) and I want it to be (batch_size,W,H)
                 masks = masks.squeeze()
                 
-                #print(masks.shape)
+                print(masks.shape)
 
                 # zero the parameter gradients
                 optimizer.zero_grad()
