@@ -97,6 +97,7 @@ class SegDataset(Dataset):
         # convert mask_list into a numpy array
         mask_list = np.array(mask_list)
         print(mask_list.shape)
+        print(image.shape)
         sample = {'image': image, 'mask': mask_list}
  
         if self.transform:
