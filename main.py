@@ -38,17 +38,19 @@ if not os.path.isdir(bpath):
 
 
 # Specify the loss function
-criterion = torch.nn.MSELoss(reduction='mean')
+criterion = torch.nn.CrossEntropyLoss(reduction='mean')
 # Specify the optimizer with a lower learning rate
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
 # Specify the evalutation metrics
 metrics = {'f1_score': f1_score, 'auroc': roc_auc_score}
 
+# class id's
+class_id_list = [1,2,3,4,5,6,7,8]
 
 # Create the dataloader
 dataloaders = datahandler.get_dataloader_single_folder(
-    data_dir, batch_size=batchsize)
+    data_dir, batch_size=batchsize, class_id_list)
 trained_model = train_model(model, criterion, dataloaders,
                             optimizer, bpath=bpath, metrics=metrics, num_epochs=epochs)
 

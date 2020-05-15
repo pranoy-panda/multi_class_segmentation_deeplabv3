@@ -9,7 +9,7 @@ from torchvision import transforms, utils
 class SegDataset(Dataset):
     """Segmentation Dataset"""
  
-    def __init__(self, root_dir, imageFolder, maskFolder, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale'):
+    def __init__(self, root_dir, imageFolder, maskFolder, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale', class_id_list):
         """
         Args:
             root_dir (string): Directory with all the images and should have the following structure.
@@ -70,18 +70,34 @@ class SegDataset(Dataset):
         return len(self.image_names)
  
     def __getitem__(self, idx):
+        '''
+        As we are dealing with multi-class Segmentation therefore, we need to extract k binary masks
+        from the mask image(k = number of classes).
+        So, mask for each image would be a tensor of shape (k,W,H)
+        '''
         img_name = self.image_names[idx]
         if self.imagecolorflag:
             image = cv2.imread(
                 img_name, self.imagecolorflag).transpose(2, 0, 1)
         else:
             image = cv2.imread(img_name, self.imagecolorflag)
+ 
         msk_name = self.mask_names[idx]
         if self.maskcolorflag:
-            mask = cv2.imread(msk_name, self.maskcolorflag).transpose(2, 0, 1)
+            mask = cv2.imread(msk_name, self.maskcolorflag).transpose(2, 0, 1) 
         else:
             mask = cv2.imread(msk_name, self.maskcolorflag)
-        sample = {'image': image, 'mask': mask}
+        
+        # lets generate binary masks
+        mask_list = []
+
+        for class_id in class_id_list:
+            mask_list.append(mask == class_id)  
+        
+        # convert mask_list into a numpy array
+        mask_list = np.array(mask_list)
+
+        sample = {'image': image, 'mask': mask_list}
  
         if self.transform:
             sample = self.transform(sample)
@@ -141,7 +157,7 @@ class Normalize(object):
                 'mask': mask.type(torch.FloatTensor)/255}
 
 
-def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', batch_size=4):
+def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', batch_size=4,class_id_list):
     """
         Create Train and Test dataloaders from two separate Train and Test folders.
         The directory structure should be as follows.
@@ -167,7 +183,7 @@ def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', 
     }
 
     image_datasets = {x: SegDataset(root_dir=os.path.join(data_dir, x),
-                                    transform=data_transforms[x], maskFolder=maskFolder, imageFolder=imageFolder)
+                                    transform=data_transforms[x], maskFolder=maskFolder, imageFolder=imageFolder,class_id_list)
                       for x in ['Train', 'Test']}
     dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size,
                                  shuffle=True, num_workers=2)
@@ -175,7 +191,7 @@ def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', 
     return dataloaders
 
 
-def get_dataloader_single_folder(data_dir, imageFolder='Images', maskFolder='Masks', fraction=0.2, batch_size=4):
+def get_dataloader_single_folder(data_dir, imageFolder='Images', maskFolder='Masks', fraction=0.2, batch_size=4,class_id_list):
     """
         Create training and testing dataloaders from a single folder.
     """
@@ -184,7 +200,7 @@ def get_dataloader_single_folder(data_dir, imageFolder='Images', maskFolder='Mas
         'Test': transforms.Compose([ToTensor(), Normalize()]),
     }
 
-    image_datasets = {x: SegDataset(data_dir, imageFolder=imageFolder, maskFolder=maskFolder, seed=100, fraction=fraction, subset=x, transform=data_transforms[x])
+    image_datasets = {x: SegDataset(data_dir, imageFolder=imageFolder, maskFolder=maskFolder, seed=100, fraction=fraction, subset=x, transform=data_transforms[x],class_id_list)
                       for x in ['Train', 'Test']}
     dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size,
                                  shuffle=True, num_workers=2)
