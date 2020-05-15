@@ -40,7 +40,7 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath, num_ep
                 #print('heyyyy')
                 inputs = sample['image'].to(device)
                 masks = sample['mask'].to(device)
-                #masks = masks.long() # transform the data type to long
+                masks = masks.long() # transform the data type to long
 
                 print(masks.shape)
 
