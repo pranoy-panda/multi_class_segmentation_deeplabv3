@@ -38,9 +38,8 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath, num_ep
             # Iterate over data.
             for sample in tqdm(iter(dataloaders[phase])):
                 inputs = sample['image'].to(device)
-                print(inputs.shape)
                 masks = sample['mask'].to(device)
-                print(masks.shape)
+                masks = masks.long() # transform the data type to long
                 # zero the parameter gradients
                 optimizer.zero_grad()
  
