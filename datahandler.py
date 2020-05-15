@@ -88,17 +88,26 @@ class SegDataset(Dataset):
         mask = cv2.imread(msk_name, 0) # grayscale
         mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)
         
-        # lets generate binary masks
-        mask_list = []
+        # # lets generate binary masks
+        # mask_list = []
 
-        for class_id in self.class_id_list:
-            mask_list.append(mask == class_id)  
+        # for class_id in self.class_id_list:
+        #     mask_list.append(mask == class_id)  
         
-        # convert mask_list into a numpy array
-        mask_list = np.array(mask_list)
+        # # convert mask_list into a numpy array
+        # mask_list = np.array(mask_list)
         #print(mask_list.shape)
         #print(image.shape)
-        sample = {'image': image, 'mask': mask_list}
+
+        # lets create a mapping from class id to mask values
+        mapping = {}
+        for i in range(len(class_id_list)):
+            mapping[class_id_list[i]] = i
+
+        for k in mapping:
+            mask[mask==k] = mapping[k]
+
+        sample = {'image': image, 'mask': mask}
  
         if self.transform:
             sample = self.transform(sample)

@@ -48,7 +48,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 metrics = {'f1_score': f1_score, 'auroc': roc_auc_score}
 
 # class id's
-class_id_list = [1,2,3,4,5,6,7,8]
+class_id_list = [0,1,2,3,4,5,6,7,8]
 
 # Create the dataloader
 dataloaders = datahandler.get_dataloader_single_folder(
