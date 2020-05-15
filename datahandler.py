@@ -9,7 +9,7 @@ from torchvision import transforms, utils
 class SegDataset(Dataset):
     """Segmentation Dataset"""
  
-    def __init__(self, root_dir, imageFolder, maskFolder, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale', class_id_list):
+    def __init__(self, root_dir, imageFolder, maskFolder, class_id_list, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale'):
         """
         Args:
             root_dir (string): Directory with all the images and should have the following structure.
@@ -158,7 +158,7 @@ class Normalize(object):
                 'mask': mask.type(torch.FloatTensor)/255}
 
 
-def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', batch_size=4,class_id_list):
+def get_dataloader_sep_folder(data_dir, class_id_list, imageFolder='Image', maskFolder='Mask', batch_size=4):
     """
         Create Train and Test dataloaders from two separate Train and Test folders.
         The directory structure should be as follows.
@@ -192,7 +192,7 @@ def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', 
     return dataloaders
 
 
-def get_dataloader_single_folder(data_dir, imageFolder='Images', maskFolder='Masks', fraction=0.2, batch_size=4,class_id_list):
+def get_dataloader_single_folder(data_dir, class_id_list, imageFolder='Images', maskFolder='Masks', fraction=0.2, batch_size=4):
     """
         Create training and testing dataloaders from a single folder.
     """
