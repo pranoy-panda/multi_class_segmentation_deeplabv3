@@ -101,8 +101,8 @@ class SegDataset(Dataset):
 
         # lets create a mapping from class id to mask values
         mapping = {}
-        for i in range(len(class_id_list)):
-            mapping[class_id_list[i]] = i
+        for i in range(len(self.class_id_list)):
+            mapping[self.class_id_list[i]] = i
 
         for k in mapping:
             mask[mask==k] = mapping[k]
