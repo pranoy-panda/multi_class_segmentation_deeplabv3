@@ -83,12 +83,12 @@ class SegDataset(Dataset):
         else:
             image = cv2.imread(img_name, self.imagecolorflag)
  
+        print(image.shape)
         msk_name = self.mask_names[idx]
         if self.maskcolorflag:
             mask = cv2.imread(msk_name, self.maskcolorflag).transpose(2, 0, 1) 
         else:
             mask = cv2.imread(msk_name, self.maskcolorflag)
-        
         # lets generate binary masks
         mask_list = []
 
@@ -97,7 +97,7 @@ class SegDataset(Dataset):
         
         # convert mask_list into a numpy array
         mask_list = np.array(mask_list)
-
+        print(mask_list.shape)
         sample = {'image': image, 'mask': mask_list}
  
         if self.transform:
