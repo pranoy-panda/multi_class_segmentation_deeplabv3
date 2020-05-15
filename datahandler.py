@@ -77,18 +77,10 @@ class SegDataset(Dataset):
         So, mask for each image would be a tensor of shape (k,W,H)
         '''
         img_name = self.image_names[idx]
-        if self.imagecolorflag:
-            image = cv2.imread(
-                img_name, self.imagecolorflag).transpose(2, 0, 1)
-        else:
-            image = cv2.imread(img_name, self.imagecolorflag)
- 
-        print(image.shape)
+        image = cv2.imread(img_name)
+        
         msk_name = self.mask_names[idx]
-        if self.maskcolorflag:
-            mask = cv2.imread(msk_name, self.maskcolorflag).transpose(2, 0, 1) 
-        else:
-            mask = cv2.imread(msk_name, self.maskcolorflag)
+        mask = cv2.imread(msk_name, 0) # grayscale
         # lets generate binary masks
         mask_list = []
 
