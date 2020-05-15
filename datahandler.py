@@ -82,7 +82,7 @@ class SegDataset(Dataset):
         img_name = self.image_names[idx]
         image = cv2.imread(img_name)
         image = cv2.resize(image, (w,h), interpolation = cv2.INTER_AREA)
-        #image = image.transpose(2, 0, 1)
+        image = image.transpose(2, 0, 1)
         
         msk_name = self.mask_names[idx]
         mask = cv2.imread(msk_name, 0) # grayscale
