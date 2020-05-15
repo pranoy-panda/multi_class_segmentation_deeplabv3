@@ -87,8 +87,7 @@ class SegDataset(Dataset):
         msk_name = self.mask_names[idx]
         mask = cv2.imread(msk_name, 0) # grayscale
         mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)
-        mask = mask.reshape((w,h))
-        
+
         # # lets generate binary masks
         # mask_list = []
 
