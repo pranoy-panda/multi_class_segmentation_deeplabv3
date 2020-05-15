@@ -50,7 +50,7 @@ class_id_list = [1,2,3,4,5,6,7,8]
 
 # Create the dataloader
 dataloaders = datahandler.get_dataloader_single_folder(
-    data_dir, batch_size=batchsize, class_id_list)
+    data_dir, batch_size=batchsize, class_id_list=class_id_list)
 trained_model = train_model(model, criterion, dataloaders,
                             optimizer, bpath=bpath, metrics=metrics, num_epochs=epochs)
 

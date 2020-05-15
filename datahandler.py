@@ -29,6 +29,7 @@ class SegDataset(Dataset):
             imagecolormode: 'rgb' or 'grayscale'
             maskcolormode: 'rgb' or 'grayscale'
         """
+        self.class_id_list = class_id_list
         self.color_dict = {'rgb': 1, 'grayscale': 0}
         assert(imagecolormode in ['rgb', 'grayscale'])
         assert(maskcolormode in ['rgb', 'grayscale'])
@@ -91,7 +92,7 @@ class SegDataset(Dataset):
         # lets generate binary masks
         mask_list = []
 
-        for class_id in class_id_list:
+        for class_id in self.class_id_list:
             mask_list.append(mask == class_id)  
         
         # convert mask_list into a numpy array
@@ -183,7 +184,7 @@ def get_dataloader_sep_folder(data_dir, imageFolder='Image', maskFolder='Mask', 
     }
 
     image_datasets = {x: SegDataset(root_dir=os.path.join(data_dir, x),
-                                    transform=data_transforms[x], maskFolder=maskFolder, imageFolder=imageFolder,class_id_list)
+                                    transform=data_transforms[x], maskFolder=maskFolder, imageFolder=imageFolder,class_id_list = class_id_list)
                       for x in ['Train', 'Test']}
     dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size,
                                  shuffle=True, num_workers=2)
@@ -200,7 +201,7 @@ def get_dataloader_single_folder(data_dir, imageFolder='Images', maskFolder='Mas
         'Test': transforms.Compose([ToTensor(), Normalize()]),
     }
 
-    image_datasets = {x: SegDataset(data_dir, imageFolder=imageFolder, maskFolder=maskFolder, seed=100, fraction=fraction, subset=x, transform=data_transforms[x],class_id_list)
+    image_datasets = {x: SegDataset(data_dir, imageFolder=imageFolder, maskFolder=maskFolder, seed=100, fraction=fraction, subset=x, transform=data_transforms[x],class_id_list = class_id_list)
                       for x in ['Train', 'Test']}
     dataloaders = {x: DataLoader(image_datasets[x], batch_size=batch_size,
                                  shuffle=True, num_workers=2)
