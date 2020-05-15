@@ -107,6 +107,8 @@ class SegDataset(Dataset):
         for k in mapping:
             mask[mask==k] = mapping[k]
 
+        #print(mask.shape)
+
         sample = {'image': image, 'mask': mask}
  
         if self.transform:

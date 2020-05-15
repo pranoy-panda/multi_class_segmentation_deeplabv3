@@ -42,7 +42,11 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath, num_ep
                 masks = sample['mask'].to(device)
                 masks = masks.long() # transform the data type to long
 
-                print(masks.shape)
+                # Squeezing a tensor removes the dimensions or axes that have a length of one
+                # current mask has dim: (batch_size,1,W,H) and I want it to be (batch_size,W,H)
+                masks = masks.squeeze()
+                
+                #print(masks.shape)
 
                 # zero the parameter gradients
                 optimizer.zero_grad()
