@@ -80,13 +80,20 @@ class SegDataset(Dataset):
         h = 256
         
         img_name = self.image_names[idx]
-        image = cv2.imread(img_name)
-        image = cv2.resize(image, (w,h), interpolation = cv2.INTER_AREA)
-        image = image.transpose(2, 0, 1)
-        
+        if self.imagecolorflag:
+            image = cv2.imread(
+                img_name, self.imagecolorflag).transpose(2, 0, 1)
+        else:
+            image = cv2.imread(img_name, self.imagecolorflag)
         msk_name = self.mask_names[idx]
-        mask = cv2.imread(msk_name, 0) # grayscale
-        mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)
+        if self.maskcolorflag:
+            mask = cv2.imread(msk_name, self.maskcolorflag).transpose(2, 0, 1)
+        else:
+            mask = cv2.imread(msk_name, self.maskcolorflag)
+
+        # resizing 
+        image = cv2.resize(image, (w,h), interpolation = cv2.INTER_AREA)
+        mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)  
 
         # # lets generate binary masks
         # mask_list = []
