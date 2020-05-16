@@ -50,9 +50,44 @@ metrics = {'f1_score': f1_score, 'auroc': roc_auc_score}
 # class id's
 class_id_list = [0,1,2,3,4,5,6,7,8]
 
+mapping = { # 8-Class eTRIMS Dataset (R G B)
+        0: (0, 0, 128),       # Building
+        1: (128, 0, 128),     # Car	
+        2: (0, 128, 128),     # Door
+        3: (128, 128, 128),   # Pavement
+        4: (0, 64, 128),      # Road
+        5: (128, 128, 0),     # Sky
+        6: (0, 128, 0),       # Vegetation
+        7: (128, 0, 0),       # Window
+        8: (0, 0, 0)          # Void
+    }
+'''
+mapping = { # 8-Class eTRIMS Dataset (R G B)
+        (0, 0, 128):0,       # Building
+        (128, 0, 128):1,     # Car	
+        (0, 128, 128):2,     # Door
+        (128, 128, 128):3,   # Pavement
+        (0, 64, 128):4,      # Road
+        (128, 128, 0):5,     # Sky
+        (0, 128, 0):6,       # Vegetation
+        (128, 0, 0):7,       # Window
+        (0, 0, 0):8          # Void
+    }
+
+mask = cv2.imread(mask_name)
+m = np.zeros((mask.shape[0],mask.shape[1]))
+for x in range(mask.shape[0]):
+	for y in range(mask.shape[1]):
+		for k in mapping:
+			if np.all(mask[x,y,:]==k):
+				m[x,y] = mapping[k]
+
+(very slow process)	
+'''
+
 # Create the dataloader
 dataloaders = datahandler.get_dataloader_single_folder(
-    data_dir, batch_size=batchsize, class_id_list=class_id_list)
+    data_dir, batch_size=batchsize, class_id_list=class_id_list,mapping=mapping)
 trained_model = train_model(model, criterion, dataloaders,
                             optimizer, bpath=bpath, metrics=metrics, num_epochs=epochs)
 

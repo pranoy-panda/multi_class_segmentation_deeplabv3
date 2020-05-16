@@ -5,11 +5,12 @@ import numpy as np
 import cv2
 import torch
 from torchvision import transforms, utils
+from scipy import io
 
 class SegDataset(Dataset):
     """Segmentation Dataset"""
  
-    def __init__(self, root_dir, imageFolder, maskFolder, class_id_list, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale'):
+    def __init__(self, root_dir, imageFolder, maskFolder, class_id_list, mapping, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale'):
         """
         Args:
             root_dir (string): Directory with all the images and should have the following structure.
@@ -30,6 +31,7 @@ class SegDataset(Dataset):
             maskcolormode: 'rgb' or 'grayscale'
         """
         self.class_id_list = class_id_list
+        self.mapping = mapping
         self.color_dict = {'rgb': 1, 'grayscale': 0}
         assert(imagecolormode in ['rgb', 'grayscale'])
         assert(maskcolormode in ['rgb', 'grayscale'])
@@ -81,12 +83,16 @@ class SegDataset(Dataset):
         
         img_name = self.image_names[idx]
         image = cv2.imread(img_name)
-        image = cv2.resize(image, (w,h), interpolation = cv2.INTER_AREA)
+        #image = cv2.resize(image, (w,h), interpolation = cv2.INTER_AREA)
+        image = image[0:w,0:h,:] # cropping
         image = image.transpose(2, 0, 1)
         
         msk_name = self.mask_names[idx]
-        mask = cv2.imread(msk_name, 0) # grayscale
-        mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)
+        mask = io.loadmat(msk_name)
+        mask = mask["array"]
+        mask = mask[0:w,0:h]
+        #mask = cv2.imread(msk_name) 
+        #mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)
 
         # lets generate binary masks
         # mask_list = []
@@ -99,13 +105,8 @@ class SegDataset(Dataset):
         #print(mask_list.shape)
         #print(image.shape)
 
-        # lets create a mapping from class id to mask values
-        mapping = {}
-        for i in range(len(self.class_id_list)):
-            mapping[self.class_id_list[i]] = i
-
-        for k in mapping:
-            mask[mask==k] = mapping[k]
+        # for k in mapping:
+        #     mask[mask==k] = mapping[k]
 
         #print(mask.shape)
 
