@@ -109,7 +109,7 @@ class SegDataset(Dataset):
 
         #print(mask.shape)
 
-        sample = {'image': image, 'mask': mask_list}
+        sample = {'image': image, 'mask': mask}
  
         if self.transform:
             sample = self.transform(sample)
