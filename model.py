@@ -7,7 +7,7 @@ Then we change the segmentation head.
 This is done by replacing the classifier module of the model with
 a new DeepLabHead with new number of output channels
 ''' 
-def createDeepLabv3(outputchannels=1): # as we have 8 classes (exlcuding background) so, 8 output channels
+def createDeepLabv3(outputchannels=9): # as we have 8 classes (exlcuding background) so, 8 output channels
     model = models.segmentation.deeplabv3_resnet101(
         pretrained=True, progress=True)
     # Added a Sigmoid activation after the last convolution layer
