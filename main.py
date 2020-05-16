@@ -45,7 +45,7 @@ criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
 # Specify the evalutation metrics
-metrics = {'f1_score': f1_score, 'auroc': roc_auc_score}
+metrics = {'f1_score': f1_score}
 
 # class id's
 class_id_list = [0,1,2,3,4,5,6,7,8]
