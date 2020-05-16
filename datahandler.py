@@ -89,23 +89,23 @@ class SegDataset(Dataset):
         mask = cv2.resize(mask, (w,h), interpolation = cv2.INTER_AREA)
 
         # lets generate binary masks
-        mask_list = []
+        # mask_list = []
 
-        for class_id in self.class_id_list:
-            mask_list.append(mask == class_id)  
+        # for class_id in self.class_id_list:
+        #     mask_list.append(mask == class_id)  
         
-        # convert mask_list into a numpy array
-        mask_list = np.array(mask_list)
+        # # convert mask_list into a numpy array
+        # mask_list = np.array(mask_list)
         #print(mask_list.shape)
         #print(image.shape)
 
         # lets create a mapping from class id to mask values
-        # mapping = {}
-        # for i in range(len(self.class_id_list)):
-        #     mapping[self.class_id_list[i]] = i
+        mapping = {}
+        for i in range(len(self.class_id_list)):
+            mapping[self.class_id_list[i]] = i
 
-        # for k in mapping:
-        #     mask[mask==k] = mapping[k]
+        for k in mapping:
+            mask[mask==k] = mapping[k]
 
         #print(mask.shape)
 
