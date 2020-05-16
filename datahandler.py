@@ -167,7 +167,7 @@ class Normalize(object):
     def __call__(self, sample):
         image, mask = sample['image'], sample['mask']
         return {'image': image.type(torch.FloatTensor)/255,
-                'mask': mask.type(torch.FloatTensor)}
+                'mask': mask}
 
 
 def get_dataloader_sep_folder(data_dir, class_id_list, imageFolder='Image', maskFolder='Mask', batch_size=4):
