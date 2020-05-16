@@ -10,7 +10,7 @@ from scipy import io
 class SegDataset(Dataset):
     """Segmentation Dataset"""
  
-    def __init__(self, root_dir, imageFolder, maskFolder, class_id_list, mapping, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale'):
+    def __init__(self, root_dir, imageFolder, maskFolder, class_id_list, transform=None, seed=None, fraction=None, subset=None, imagecolormode='rgb', maskcolormode='grayscale'):
         """
         Args:
             root_dir (string): Directory with all the images and should have the following structure.
@@ -31,7 +31,7 @@ class SegDataset(Dataset):
             maskcolormode: 'rgb' or 'grayscale'
         """
         self.class_id_list = class_id_list
-        self.mapping = mapping
+        #self.mapping = mapping
         self.color_dict = {'rgb': 1, 'grayscale': 0}
         assert(imagecolormode in ['rgb', 'grayscale'])
         assert(maskcolormode in ['rgb', 'grayscale'])

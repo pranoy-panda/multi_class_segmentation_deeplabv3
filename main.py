@@ -87,7 +87,7 @@ for x in range(mask.shape[0]):
 
 # Create the dataloader
 dataloaders = datahandler.get_dataloader_single_folder(
-    data_dir, batch_size=batchsize, class_id_list=class_id_list,mapping=mapping)
+    data_dir, batch_size=batchsize, class_id_list=class_id_list)
 trained_model = train_model(model, criterion, dataloaders,
                             optimizer, bpath=bpath, metrics=metrics, num_epochs=epochs)
 
