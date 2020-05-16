@@ -38,9 +38,9 @@ if not os.path.isdir(bpath):
 
 
 # Specify the loss function
-#criterion = torch.nn.CrossEntropyLoss()
+criterion = torch.nn.CrossEntropyLoss()
 #criterion = torch.nn.BCEWithLogitsLoss()
-criterion = torch.nn.functional.cross_entropy()
+#criterion = torch.nn.functional.cross_entropy()
 # Specify the optimizer with a lower learning rate
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
