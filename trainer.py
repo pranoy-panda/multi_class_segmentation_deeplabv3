@@ -10,7 +10,7 @@ import os
 def train_model(model, criterion, dataloaders, optimizer, metrics, bpath, num_epochs=3):
     since = time.time()
     best_model_wts = copy.deepcopy(model.state_dict())
-    best_loss = 1e10
+    best_loss = 1e20
     # Use gpu if available
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model.to(device)
