@@ -15,9 +15,7 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath, num_ep
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model.to(device)
     # Initialize the log file for training and testing loss and metrics
-    fieldnames = ['epoch', 'Train_loss', 'Test_loss'] + \
-                 [f'Train_{m}' for m in metrics.keys()] + \
-                 [f'Test_{m}' for m in metrics.keys()]
+    fieldnames = ['epoch', 'Train_loss', 'Test_loss'] 
     with open(os.path.join(bpath, 'log.csv'), 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
