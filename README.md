@@ -9,9 +9,11 @@ The segmentation output of the model on a sample image are shown below.
 
 ![Sample segmentation output](./SegmentationOutput.png)
 
+Figure:(From top to bottom, left to right) Image, Building, Car, Door, Pavement, Road, Sky, Vegetation, window, void.
+
 Loss plot is shown below.
 
-![loss plot](./loss.png)
+![loss plot](./lplot.png)
 
 To run the code the dataset use the following command.
 
@@ -26,7 +28,7 @@ It has following two optional arguments:
 
 # Citation
 eTRIMS Image Database
-
+```
 @techreport{ korc-forstner-tr09-etrims,
              author = "Kor{\v c}, F. and F{\" o}rstner, W.",
              title = "{eTRIMS} {I}mage {D}atabase for Interpreting Images of Man-Made Scenes",
@@ -35,3 +37,4 @@ eTRIMS Image Database
              year = "2009",
              institute = "Dept. of Photogrammetry, University of Bonn",
              url = "http://www.ipb.uni-bonn.de/projects/etrims_db/" }
+```
