@@ -38,3 +38,12 @@ eTRIMS Image Database
              institute = "Dept. of Photogrammetry, University of Bonn",
              url = "http://www.ipb.uni-bonn.de/projects/etrims_db/" }
 ```
+DeepLabv3 semantic segmentation architecture
+```
+@article{chen2017rethinking,
+  title={Rethinking atrous convolution for semantic image segmentation},
+  author={Chen, Liang-Chieh and Papandreou, George and Schroff, Florian and Adam, Hartwig},
+  journal={arXiv preprint arXiv:1706.05587},
+  year={2017}
+}
+```
