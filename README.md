@@ -11,7 +11,10 @@ The code was written using pyTorch and trained on NVIDIA Tesla k80 GPU with 12GB
 ## Output:
 The segmentation output of the model on a sample image are shown below.
 
-![segmentation Output](./multi_class.png)
+![Sample segmentation output(class by class representation)](./SegmentationOutput.png)
+
+Figure:(From top to bottom, left to right) Image, Building, Car, Door, Pavement, Road, Sky, Vegetation, window, void.
+
 
 Loss plot is shown below.
 
