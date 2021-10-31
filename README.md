@@ -1,4 +1,4 @@
-# Finetuning deeplabv3 for multi-class semantic segmentation
+# Multi-class semantic segmentation via Transfer Learning
 This repository contains code for Fine Tuning [DeepLabV3 ResNet101](https://arxiv.org/abs/1706.05587) in PyTorch. The model is from the [torchvision module](https://pytorch.org/docs/stable/torchvision/models.html#semantic-segmentation).
 
 ## Dataset:
